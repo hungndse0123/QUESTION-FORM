@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+.lmt-dialog {
+    .modal-content {
+        position: absolute;
+        top: 30%;
+        border-radius: 8px;
+        box-shadow: 0 0 30px 0 #000000;
+        left: 40%;
+        width: 30%;
+    }
+}

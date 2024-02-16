@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    .form-style {
+        display: flex;
+        flex-direction: column;
+        .element {
+            width: 100%;
+            margin-bottom: 20px;
+            .label {
+                font-style: normal;
+                font-weight: 900;
+                font-size: 20px;
+            }
+        }
+    }
+}

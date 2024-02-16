@@ -1,0 +1,32 @@
+.modal-cont {
+    height: 100%;
+    overflow: hidden scroll;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    .label {
+        font-style: normal;
+        font-weight: 900;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .select-style {
+        margin-bottom: 10px;
+    }
+
+    .input {
+        margin-bottom: 15px;
+    }
+
+    .element-style {
+        margin-bottom: 10px;
+    }
+
+    .button-container {
+        display: flex;
+        align-self: self-end;
+        gap: 3%;
+    }
+}
