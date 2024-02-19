@@ -13,6 +13,7 @@ export class AnswersComponent implements OnInit{
       {
         title: 'Back to Forms Builder',
         type: 'link',
+        styleClass: 'text-1xl text-white underline',
         action: {
           execute:(data: any) => {
             this.router.navigate([`form/builder`], { queryParams: { form: this.form, config: this.config } });
@@ -40,7 +41,9 @@ export class AnswersComponent implements OnInit{
         formControlName: key,
         title: key,
         body: value,
-        type: 'disable-text'
+        type: 'disable-text',
+        styleClass: 'text-1xl text-white',
+        styleTitleClass: 'text-2xl text-white font-bold',
       })
     }
     this.formConfig.formElements = [...this.elementArr, ...this.formConfig.formElements];
