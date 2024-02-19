@@ -40,4 +40,8 @@ export class FormGeneratorComponent {
     }
     fconfig.savedOtherValue = fconfig.otherValue;
   }
+
+  checkArrayType(element: any) {
+    return element instanceof Array;
+  }
 }

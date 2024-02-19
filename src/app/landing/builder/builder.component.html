@@ -1,39 +1,52 @@
-<app-form-generator [formTemplate]="form" [formConfig]="formConfig1" class="overall-style"></app-form-generator>
-<app-form-generator [formTemplate]="form" [formConfig]="formConfig2" class="overall-style"></app-form-generator>
-<ng-template #addForm>
-    <div class="modal-cont">
-        <label class="label">Add a new question</label>
-        <select (change)="onQuestionTypeChange($event)" class="select-style">
-            <option value="checkbox">Checkbox List</option>
-            <option value="textarea">Paragraph</option>
-        </select>
-        <div *ngIf="curNewQuestion.type == 'checkbox'">
-            <input class="input" type="text" placeholder="Type question here" (change)="updateQuestion($event)">
-            <div *ngFor="let element of curNewQuestion.checkboxList; let i=index" class="element-style">
-                <input type="text" [value]="element"  (change)="updateCheckboxList($event, i)" placeholder="Add Answer Option">
+<div class="h-full border-2 border-white rounded-lg p-10 bg-slate-800">
+    <app-form-generator [formTemplate]="form" [formConfig]="formConfig1" class="overall-style"></app-form-generator>
+    <app-form-generator [formTemplate]="form" [formConfig]="formConfig2" class="overall-style"></app-form-generator>
+    <ng-template #addForm>
+        <form #form="ngForm" [formGroup]="curNewQuestionForm">
+            <div class="modal-cont bg-slate-700">
+                <label class="text-2xl font-bold text-white mb-5">Add a new question</label>
+                <select (change)="onQuestionTypeChange($event)" class="mb-5 rounded-lg p-2">
+                    <option value="checkbox">Checkbox List</option>
+                    <option value="textarea">Paragraph</option>
+                </select>
+                <div *ngIf="curNewQuestionForm.get('type')?.value == 'checkbox'">
+                    <input class="w-full mb-5 rounded-lg p-2" type="text" placeholder="Type question here"
+                        formControlName="formControlName">
+                    <div *ngFor="let element of curNewQuestionForm.get('checkboxList')?.value; trackBy: trackByFn;let i=index"
+                        class="element-style">
+                        <input type="text" (change)="updateCheckboxList($event, i)" placeholder="Add Answer Option"
+                            class="w-full mb-5 rounded-lg p-2">
+                    </div>
+                </div>
+                <a href="javascript:void(0)" (click)=onAddNewAnswer()
+                    *ngIf="curNewQuestionForm.get('type')?.value == 'checkbox' && 5 > curNewQuestionForm.get('checkboxList')?.value.length"
+                    class="text-white mb-5">+ Add another
+                    answer</a>
+                <div *ngIf="curNewQuestionForm.get('type')?.value == 'textarea'">
+                    <input class="input" type="text" placeholder="Type question here" formControlName="formControlName"
+                        class="w-full mb-5 rounded-lg p-2">
+                </div>
+                <div *ngIf="curNewQuestionForm.get('type')?.value == 'checkbox'">
+                    <input type="checkbox" formControlName="other">
+                    <label class="text-white ml-1">Allow user to specify their own answer</label><br>
+                </div>
+                <div class="mb-5">
+                    <input type="checkbox" formControlName="required">
+                    <label class="text-white ml-1">This field is required</label><br>
+                </div>
+                <div class="button-container">
+                    <button (click)="onSubmit()" [className]="darkButtonClass" type="button">Submit</button>
+                    <button (click)="onClose()" [className]="darkButtonClass" type="button">Close</button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template #alert>
+        <div class="modal-cont bg-slate-700">
+            <label class="text-white">Please fill all the required fields!</label>
+            <div class="button-container">
+                <button (click)="alertRef.hide()" [className]="darkButtonClass" type="button">OK</button>
             </div>
         </div>
-        <a href="javascript:void(0)" (click)=onAddNewAnswer() *ngIf="curNewQuestion.type == 'checkbox' && 5 > curNewQuestion.checkboxList.length">+ Add another answer</a>
-        <div *ngIf="curNewQuestion.type == 'textarea'">
-            <input class="input" type="text" placeholder="Type question here" (change)="updateQuestion($event)">
-        </div>
-        <div *ngIf="curNewQuestion.type == 'checkbox'">
-            <input type="checkbox" (change)="onCheckChange($event, 'other')" [value]="curNewQuestion.other">
-            <label>Allow user to specify their own answer</label><br>
-        </div>
-        <div>
-            <input type="checkbox" (change)="onCheckChange($event, 'require')" [value]="curNewQuestion.required">
-            <label>This field is required</label><br>
-        </div>
-        <div class="button-container">
-            <button (click)="onSubmit()">Submit</button>
-            <button (click)="addFormRef.hide()">Close</button>
-        </div>     
-    </div>   
-</ng-template>
-<ng-template #alert>
-    <div class="modal-cont" style="background-color: antiquewhite;">
-        <label class="label">Please fill all the required fields!</label>
-        <button (click)="alertRef.hide()">OK</button>
-    </div>
-</ng-template>
+    </ng-template>
+</div>

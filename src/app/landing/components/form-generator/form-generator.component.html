@@ -1,28 +1,41 @@
-<div class="container" >
+<div class="container" *ngIf="formConfig.formElements.length > 0">
     <form #form="ngForm" [formGroup]="formTemplate" class="form-style">
         <div *ngFor="let element of formConfig.formElements" class="element">
-            <label class="label" *ngIf="!['button', 'link'].includes(element.type)">{{ element.title }}<span *ngIf="element.required">*</span></label><br>
-            <input class="input" [type]="element.type" *ngIf="['text', 'number'].includes(element.type)" 
-            [formControlName]="element.formControlName" [readonly]="element.readonly" [placeholder]="element.placeholder || ''">
-            <textarea class="textarea" *ngIf="['textarea'].includes(element.type)" rows="4" cols="50"
-            [formControlName]="element.formControlName" [readonly]="element.readonly" [placeholder]="element.placeholder || ''"></textarea>
+            <label [className]="element.styleTitleClass" *ngIf="!['button', 'link'].includes(element.type)">{{
+                element.title }}<span *ngIf="element.required">*</span></label><br>
+            <input [className]="element.styleClass" [type]="element.type"
+                *ngIf="['text', 'number'].includes(element.type)" [formControlName]="element.formControlName"
+                [readonly]="element.readonly" [placeholder]="element.placeholder || ''">
+            <textarea *ngIf="['textarea'].includes(element.type)" class="w-2/4 rounded-lg p-2"
+                [formControlName]="element.formControlName" [readonly]="element.readonly"
+                [placeholder]="element.placeholder || ''"></textarea>
             <div class="button-container" *ngIf="element.type == 'button'">
-                <button type="button" class="button" (click)="element.action.execute(formTemplate.value)">{{ element.title }}</button>
+                <button type="button" (click)="element.action.execute(formTemplate.value)"
+                    [className]="element.styleClass">{{ element.title }}</button>
             </div>
             <div class="button-container" *ngIf="element.type == 'link'">
-                <a href="javascript:void(0)" (click)=element.action.execute(formTemplate.value)>{{ element.title }}</a>
+                <a href="javascript:void(0)" (click)=element.action.execute(formTemplate.value)
+                    [className]="element.styleClass">{{ element.title }}</a>
             </div>
             <div class="checkbox-container" *ngIf="element.type == 'checkbox'">
                 <div *ngFor="let cbItem of element.checkboxList; let i=index" class="cbItem-style">
-                    <input type="checkbox" [value]="cbItem" (change)="onCheckChange($event, element)" [checked]="formTemplate.get(element.formControlName)?.value?.includes(cbItem)">
-                    <label>{{cbItem}}</label><br>
+                    <input type="checkbox" [value]="cbItem" (change)="onCheckChange($event, element)"
+                        [checked]="formTemplate.get(element.formControlName)?.value?.includes(cbItem)">
+                    <label class="text-1xl text-white">{{cbItem}}</label><br>
                 </div>
                 <div class="cbItem-style" *ngIf="element.other">
                     <input type="checkbox" value="Other" (change)="onCheckChange($event, element)">
-                    <label>Other</label><input class="input" type="text" (change)="updateOther($event, element)" [readonly]="!element.otherToggle"><br>
+                    <label class="text-1xl text-white">Other</label><input class="ml-1 w-2/4 rounded-lg p-2" type="text"
+                        (change)="updateOther($event, element)" [readonly]="!element.otherToggle"><br>
                 </div>
             </div>
-            <div *ngIf="['disable-text'].includes(element.type)">{{element.body}}</div>
+            <div *ngIf="['disable-text'].includes(element.type) && !checkArrayType(element.body)"
+                [className]="element.styleClass">{{element.body}}</div>
+            <div *ngIf="['disable-text'].includes(element.type) && checkArrayType(element.body)">
+                <div *ngFor="let item of element.body; let i=index">
+                    <div [className]="element.styleClass">{{item}}</div><br>
+                </div>
+            </div>
         </div>
     </form>
 </div>

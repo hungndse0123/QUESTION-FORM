@@ -1,6 +1,5 @@
 .modal-cont {
     height: 100%;
-    overflow: hidden scroll;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -18,10 +17,6 @@
 
     .input {
         margin-bottom: 15px;
-    }
-
-    .element-style {
-        margin-bottom: 10px;
     }
 
     .button-container {
